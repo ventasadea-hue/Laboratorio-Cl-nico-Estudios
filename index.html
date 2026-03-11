@@ -1,0 +1,819 @@
+
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>ADAHLAB | Laboratorio de Análisis Clínicos y Estudios Médicos</title>
+    <meta name="description" content="ADAHLAB: Laboratorio clínico confiable. Agende su cita para biometría hemática, química sanguínea, pruebas COVID y chequeos generales. Resultados precisos y atención profesional.">
+    <meta name="keywords" content="laboratorio clínico, análisis clínicos, estudios de sangre, prueba covid, biometría hemática, laboratorio cerca de mí, salud digna alternativa, adahlab">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="ADAHLAB Equipo Digital">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- VARIABLES Y RESET --- */
+        :root {
+            /* Paleta de Colores */
+            --blue-medical: #003366; /* Azul profundo, confianza */
+            --blue-tech: #00AEEF;    /* Azul tecnológico, innovación */
+            --white: #FFFFFF;
+            --gray-light: #F4F7F6;
+            --gray-text: #333333;
+            --success: #25D366;      /* Color WhatsApp */
+            
+            /* Espaciado y Estilos */
+            --shadow-card: 0 4px 15px rgba(0, 51, 102, 0.1);
+            --radius: 8px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: var(--gray-text);
+            background-color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+
+        /* --- UTILIDADES --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--blue-tech);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--blue-medical);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 174, 239, 0.4);
+        }
+
+        .btn-outline {
+            border: 2px solid var(--white);
+            color: var(--white);
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--white);
+            color: var(--blue-medical);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            color: var(--blue-medical);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+
+        /* --- HEADER --- */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 15px 0;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 60px; /* Ajuste para el logo */
+            width: auto;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--blue-medical);
+            font-weight: 500;
+            font-size: 1rem;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--blue-tech);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .mobile-toggle {
+            display: none;
+            font-size: 1.5rem;
+            color: var(--blue-medical);
+            cursor: pointer;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 70vh;
+            background-image: url('portada.png');
+            background-size: cover;
+            background-position: top center;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Gradiente para mejorar lectura a la derecha manteniendo imagen a la izquierda visible */
+            background: linear-gradient(90deg, rgba(255,255,255,0.1) 0%, rgba(0,51,102,0.85) 60%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            display: flex;
+            justify-content: flex-end; /* Texto a la derecha */
+        }
+
+        .hero-text {
+            width: 50%;
+            color: var(--white);
+            padding-right: 20px;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            font-weight: 900;
+        }
+
+        .hero-text p {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        /* --- PROMOCIONES --- */
+        .promos {
+            padding: 80px 0;
+            background-color: var(--gray-light);
+        }
+
+        .promo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .promo-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 25px;
+            box-shadow: var(--shadow-card);
+            border-top: 4px solid var(--blue-tech);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .promo-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .promo-title {
+            font-size: 1.2rem;
+            color: var(--blue-medical);
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .promo-desc {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .promo-price {
+            font-size: 1.5rem;
+            color: var(--blue-tech);
+            font-weight: 900;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        /* --- SOBRE ADAHLAB --- */
+        .about {
+            padding: 80px 0;
+            background: var(--white);
+        }
+
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .about-text {
+            flex: 1;
+        }
+
+        .about-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feature-icon {
+            color: var(--blue-tech);
+            font-size: 1.5rem;
+        }
+
+        .about-visual {
+            flex: 1;
+            background: var(--blue-medical);
+            color: var(--white);
+            padding: 40px;
+            border-radius: var(--radius);
+            text-align: center;
+        }
+
+        /* --- PREPARACIÓN --- */
+        .prep {
+            padding: 60px 0;
+            background-color: var(--blue-medical);
+            color: var(--white);
+        }
+
+        .prep-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .prep-card {
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: var(--radius);
+            text-align: center;
+        }
+
+        .prep-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--blue-tech);
+        }
+
+        /* --- AGENDA --- */
+        .agenda {
+            padding: 80px 0;
+            background-color: var(--gray-light);
+        }
+
+        .form-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: var(--white);
+            padding: 40px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-card);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--blue-medical);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+
+        .form-control:focus {
+            border-color: var(--blue-tech);
+            outline: none;
+        }
+
+        /* --- FOOTER & LEGAL --- */
+        footer {
+            background-color: #1a1a1a;
+            color: #ccc;
+            padding: 60px 0 20px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer h3 {
+            color: var(--white);
+            margin-bottom: 20px;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a:hover {
+            color: var(--blue-tech);
+        }
+
+        .cofepris-banner {
+            background-color: #000;
+            color: #666;
+            text-align: center;
+            padding: 15px 20px;
+            font-size: 0.8rem;
+            border-top: 1px solid #333;
+        }
+
+        /* --- FLOATING WHATSAPP --- */
+        .float-wa {
+            position: fixed;
+            bottom: 30px;
+            left: 20px !important;
+            right: auto !important;
+            position: fixed;
+            bottom: 20px;
+            z-index: 999;
+            background-color: var(--success);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+            z-index: 2000;
+            transition: var(--transition);
+        }
+
+        .float-wa:hover {
+            transform: scale(1.1);
+            background-color: #1ebc57;
+        }
+
+        /* --- MEDIA QUERIES --- */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-wrap: wrap;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .nav-menu {
+                display: none; /* Ocultar por defecto en móvil */
+                width: 100%;
+                flex-direction: column;
+                background: var(--white);
+                position: absolute;
+                top: 70px;
+                left: 0;
+                padding: 20px;
+                box-shadow: 0 10px 10px rgba(0,0,0,0.1);
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .hero {
+                height: auto;
+                min-height: 80vh;
+                text-align: center;
+            }
+
+            .hero-overlay {
+                background: rgba(0, 51, 102, 0.75); /* Overlay sólido semi-transparente en móvil */
+            }
+
+            .hero-content {
+                justify-content: center;
+                padding: 60px 0;
+            }
+
+            .hero-text {
+                width: 100%;
+                padding: 0;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+                flex-direction: column;
+            }
+
+            .about-content {
+                flex-direction: column;
+            }
+
+            .prep-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container header-content">
+            <a href="#" class="logo">
+                <img src="logo.png" alt="ADAHLAB Logo">
+            </a>
+            
+            <div class="mobile-toggle" id="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+
+            <nav>
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="#inicio" class="nav-link">Inicio</a></li>
+                    <li><a href="#promociones" class="nav-link">Promociones</a></li>
+                    <li><a href="#estudios" class="nav-link">Estudios</a></li>
+                    <li><a href="#preparacion" class="nav-link">Preparación</a></li>
+                    <li><a href="#agenda" class="btn btn-primary">Agenda tu cita</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="inicio" class="hero">
+        <div class="hero-overlay"></div>
+        <div class="container hero-content">
+            <div class="hero-text">
+                <h1>Resultados confiables para cuidar tu salud</h1>
+                <p>Laboratorio de análisis clínicos con procesos profesionales, tecnología de punta y resultados precisos para ti y tu familia.</p>
+                <div class="hero-buttons">
+                    <a href="#agenda" class="btn btn-primary">Agendar Cita</a>
+                    <a href="#promociones" class="btn btn-outline">Ver Estudios</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="promociones" class="promos">
+        <div class="container">
+            <h2 class="section-title">Promociones Destacadas</h2>
+            <p class="section-subtitle">Cuida tu salud con nuestros paquetes preventivos a precios especiales</p>
+            
+            <div class="promo-grid">
+                <div class="promo-card">
+                    <div>
+                        <h3 class="promo-title">Check Up VI</h3>
+                        <p class="promo-desc">Creatinina sérica, Glucosa, Coleserol total, Urea en suero, Nitogeno uréico (BUN), Ácido úrico en suero, Triglicéridos, Biometría hemática, Examen general de orina.</p>
+                        <span class="promo-price">$700 MXN</span>
+                    </div>
+                    <a href="#agenda" class="btn btn-primary" onclick="seleccionarEstudio('Biometría Hemática')">Agendar</a>
+                </div>
+                <div class="promo-card">
+                    <div>
+                        <h3 class="promo-title">Check Up III</h3>
+                        <p class="promo-desc">Química sanguínea de 50 elementos, Biometría hemática, Examen general de orina</p>
+                        <span class="promo-price">$1,399 MXN</span>
+                    </div>
+                    <a href="#agenda" class="btn btn-primary" onclick="seleccionarEstudio('Química Sanguínea 6')">Agendar</a>
+                </div>
+                <div class="promo-card">
+                    <div>
+                        <h3 class="promo-title">Perfil Lipídico</h3>
+                        <p class="promo-desc">Estudios: Colesterol total, Lípidos totales, HDL, VLDL, LDL, Triglicéridos, Hemoglobina glicosilada. </p>
+                        <span class="promo-price">$850 MXN</span>
+                    </div>
+                    <a href="#agenda" class="btn btn-primary" onclick="seleccionarEstudio('Perfil Lipídico')">Agendar</a>
+                </div>
+                <div class="promo-card">
+                    <div>
+                        <h3 class="promo-title">Perfil Ginecológico</h3>
+                        <p class="promo-desc">Estudios: Estradiol, Progesterona, Hormona Foliculo Estimulante, Prolactina, Hormona luteinizante, Testosterona.</p>
+                        <span class="promo-price">$850 MXN</span>
+                    </div>
+                    <a href="#agenda" class="btn btn-primary" onclick="seleccionarEstudio('Glucosa')">Agendar</a>
+                </div>
+                <div class="promo-card">
+                    <div>
+                        <h3 class="promo-title">Perfil Tiroideo</h3>
+                        <p class="promo-desc">TSH, T3 y T4. Evaluación del funcionamiento de la tiroides.</p>
+                        <span class="promo-price">$700 MXN</span>
+                    </div>
+                    <a href="#agenda" class="btn btn-primary" onclick="seleccionarEstudio('Perfil Tiroideo')">Agendar</a>
+                </div>
+                <div class="promo-card">
+                    <div>
+                        <h3 class="promo-title">Check Up Masculino</h3>
+                        <p class="promo-desc">Estudios: Química sanguínea de 33 elementos, Antígeno específico de próstata, Biometría hemática, Examen general de orina.</p>
+                        <span class="promo-price">$900 MXN</span>
+                    </div>
+                    <a href="#agenda" class="btn btn-primary" onclick="seleccionarEstudio('EGO')">Agendar</a>
+                </div>
+                <div class="promo-card">
+                    <div>
+                        <h3 class="promo-title">Prueba de Embarazo</h3>
+                        <p class="promo-desc">Prueba en sangre (Gonadotropina Coriónica).</p>
+                        <span class="promo-price">$220 MXN</span>
+                    </div>
+                    <a href="#agenda" class="btn btn-primary" onclick="seleccionarEstudio('Prueba Embarazo')">Agendar</a>
+                </div>
+                <div class="promo-card">
+                    <div>
+                        <h3 class="promo-title">Perfil Escolar</h3>
+                        <p class="promo-desc">Estudios: Biometría hemática, grupo sanguíneo y facttor RH, Cultivo Faríngeo, Examen general de orina, Coproparasitoscópico (3 muestras)</p>
+                        <span class="promo-price">$800 MXN</span>
+                    </div>
+                    <a href="#agenda" class="btn btn-primary" onclick="seleccionarEstudio('Perfil Hepático')">Agendar</a>
+                </div>
+                <div class="promo-card">
+                    <div>
+                        <h3 class="promo-title">Perfil Renal</h3>
+                        <p class="promo-desc">Permite evaluar la función renal, el estado nutricional y el equilibrio de proteínas en el organismo. Estudios: Albúmina, Globulina, Relación A/G, Creatinina, Nitrógeno ureico, Examen general de orina, Proteínas totales.</p>
+                        <span class="promo-price">$700 MXN</span>
+                    </div>
+                    <a href="#agenda" class="btn btn-primary" onclick="seleccionarEstudio('Perfil Renal')">Agendar</a>
+                </div>
+                <div class="promo-card">
+
+                    <div>
+                        <h3 class="promo-title">Prueba COVID / Influenza</h3>
+                        <p class="promo-desc">Detección de antígenos. Prueba rápida.</p>
+                        <span class="promo-price">$550 MXN</span>
+                    </div>
+                    <a href="#agenda" class="btn btn-primary" onclick="seleccionarEstudio('COVID/Influenza')">Agendar</a>
+                </div>
+                <div class="promo-card">
+                    <div>
+                        <h3 class="promo-title">Perfil Control Diabético</h3>
+                        <p class="promo-desc">Visión integral del metabolismo y riesgo de diabetes. Estudios: Biometría hemática, H. Glicosilada A1c, Examen General de orina, Química sanguínea de 6 elementos y Microalbúmina en orina ocasional.</p>
+                        <span class="promo-price">$700 MXN</span>
+                    </div>
+                    <a href="#agenda" class="btn btn-primary" onclick="seleccionarEstudio('Perfil Metabólico')">Agendar</a>
+                </div>
+                <div class="promo-card">
+                    <div>
+                        <h3 class="promo-title">Perfil Toxicológico 7</h3>
+                        <p class="promo-desc">Estudios: determinación de cocaína, cannabinoides, anfetaminas, benzodiacepinas, opiaceos, barbitúricos, metanfetaminas. Precio preferente a Empresas</p>
+                        <span class="promo-price">$1,050 MXN</span>
+                    </div>
+                    <a href="#agenda" class="btn btn-primary" onclick="seleccionarEstudio('Chequeo Básico')">Agendar</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="estudios" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2 class="section-title" style="text-align: left;">Apoyo al diagnóstico Médico</h2>
+                    <p>En ADAHLAB combinamos la calidez humana con tecnología de vanguardia para ofrecerte resultados en los que puedes confiar.</p>
+                    
+                    <div class="about-features">
+                        <div class="feature-item">
+                            <i class="fas fa-microscope feature-icon"></i>
+                            <span>Tecnología Automatizada</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-user-nurse feature-icon"></i>
+                            <span>Flebotomistas Calificados</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle feature-icon"></i>
+                            <span>Control de Calidad</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-clock feature-icon"></i>
+                            <span>Resultados en 24 horas, disponibles en línea de forma segura</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-visual">
+                    <h3>Nuestras Áreas</h3>
+                    <ul style="text-align: left; margin-top: 20px;">
+                        <li style="margin-bottom: 10px;"><i class="fas fa-flask"></i> Química Clínica</li>
+                        <li style="margin-bottom: 10px;"><i class="fas fa-tint"></i> Hematología y Coagulación</li>
+                        <li style="margin-bottom: 10px;"><i class="fas fa-dna"></i> Inmunología y Hormonas</li>
+                        <li style="margin-bottom: 10px;"><i class="fas fa-bacterium"></i> Microbiología</li>
+                        <li style="margin-bottom: 10px;"><i class="fas fa-heartbeat"></i> Perfiles Especiales</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="preparacion" class="prep">
+        <div class="container">
+            <h2 class="section-title" style="color: var(--white);">Indicaciones Previas</h2>
+            <p class="section-subtitle" style="color: #e0e0e0;">Para garantizar la precisión de tus resultados, sigue estas recomendaciones:</p>
+            
+            <div class="prep-grid">
+                <div class="prep-card">
+                    <i class="fas fa-stopwatch prep-icon"></i>
+                    <h3>Ayuno</h3>
+                    <p>Requiere ayuno de 8 a 12 horas para estudios de sangre como glucosa y lípidos. Puedes beber agua simple.</p>
+                </div>
+                <div class="prep-card">
+                    <i class="fas fa-pills prep-icon"></i>
+                    <h3>Medicamentos</h3>
+                    <p>Informa al personal si tomas medicamentos. No suspendas tu tratamiento a menos que tu médico lo indique.</p>
+                </div>
+                <div class="prep-card">
+                    <i class="fas fa-wine-bottle prep-icon"></i>
+                    <h3>Restricciones</h3>
+                    <p>Evita el consumo de alcohol 24 horas antes y el ejercicio intenso previo a la toma de muestra.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="agenda" class="agenda">
+        <div class="container">
+            <h2 class="section-title">Agenda tu Cita</h2>
+            <p class="section-subtitle">Reserva tu espacio y evita filas. Confirmaremos tu cita vía WhatsApp o Correo.</p>
+            
+            <div class="form-container">
+                <form action="#" method="POST" onsubmit="event.preventDefault(); alert('Gracias. Tu solicitud ha sido recibida. Nos pondremos en contacto contigo en breve.');">
+                    <div class="form-group">
+                        <label for="nombre">Nombre Completo</label>
+                        <input type="text" id="nombre" class="form-control" placeholder="Ej. Juan Pérez" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="telefono">Teléfono / WhatsApp</label>
+                        <input type="tel" id="telefono" class="form-control" placeholder="Ej. 55 1234 5678" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="correo">Correo Electrónico</label>
+                        <input type="email" id="correo" class="form-control" placeholder="Ej. correo@ejemplo.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="estudio">Estudio de interés</label>
+                        <select id="estudio" class="form-control">
+                            <option value="">Selecciona una opción...</option>
+                            <option value="Biometría">Biometría Hemática</option>
+                            <option value="Química 6">Química Sanguínea</option>
+                            <option value="Lípidos">Perfil Lipídico</option>
+                            <option value="Checkup">Chequeo General</option>
+                            <option value="COVID">Prueba COVID</option>
+                            <option value="Otro">Otro estudio</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fecha">Fecha preferida</label>
+                        <input type="date" id="fecha" class="form-control">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Enviar Solicitud</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h3>ADAHLAB</h3>
+                    <p style="margin-bottom: 20px;">Tu laboratorio de confianza. Comprometidos con la salud y el bienestar de las familias mexicanas.</p>
+                    <div>
+                        <a href="#" style="margin-right: 15px;"><i class="fab fa-facebook fa-lg"></i></a>
+                        <a href="#" style="margin-right: 15px;"><i class="fab fa-instagram fa-lg"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3>Contacto</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> A 5 minutos del Faro Cultural en Iztacalco, CP 08500, CDMX</li>
+                        <li><i class="fas fa-phone"></i> (55) 9296-4111</li>
+                        <li><i class="fas fa-envelope"></i> ventas.adea@gmail.com</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3>Horario</h3>
+                    <ul class="footer-links">
+                        <li>Lunes a Viernes: 07:00 - 15:00</li>
+                        <li>Sábados: 07:00 - 14:00</li>
+                        <li>Domingos: Cerrado</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3>Legal</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Aviso de Privacidad</a></li>
+                        <li><a href="#">Aviso de Publicidad</a></li>
+                        <li><a href="#">Derechos ARCO</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="cofepris-banner">
+        <p>Responsable Sanitario: Céd. Prof. 12345678. Universidad Nacional Autónoma de México. | Aviso de Publicidad COFEPRIS: En trámite.</p>
+        <p style="margin-top: 5px;">Los estudios de laboratorio son auxiliares de diagnóstico y deben ser interpretados por un profesional de la salud.</p>
+    </div>
+
+    <a href="https://wa.me/525592964111" target="_blank" class="float-wa" title="Contactar por WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+   <script src="https://cdn.botpress.cloud/webchat/v3.6/inject.js"></script>
+
+<script src="https://files.bpcontent.cloud/2026/03/09/05/20260309053121-I3BE4MNN.js" defer></script>
+</body>
+</html>
